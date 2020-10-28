@@ -24,11 +24,12 @@ class NexiaThermostat:
         self.password = password
         self.house_id = house_id
 
+        self.session = requests.session()
+        self.session.max_redirects = 3
+
         if auto_login:
             self.login()
 
-        self.session = requests.session()
-        self.session.max_redirects = 3
 
     def login(self):
         print("Logging in as " + self.username)
@@ -161,7 +162,7 @@ class NexiaThermostat:
             r = self.get_url("/houses/" + str(self.house_id) + "/xxl_thermostats")
             if r and r.status_code == 200:
                 ts = r.json()
-                if 0 in ts:
+                if ts:
                     self.thermostat_json = ts[0]
             else:
                 print("Failed to get thermostat JSON, session probably timed out")

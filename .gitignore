@@ -1,2 +1,4 @@
 .idea
 nexia_example.py
+__pycache__/
+*.py[cod]
